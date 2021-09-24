@@ -1,16 +1,24 @@
 <template>
-  <div class="hello">
+  <div class="container">
+    <img class="logo" alt="Fluid Miners Logo" src="../assets/logo.png">
     <h1>Fluid Miners</h1>
-    <p>
-      Create your own Super Token or wrap a Pre-existing token to create a mineable asteroid.
+    <p class="descriptions">
+      Create your own Super Token then fill a mineable asteroid with it. The DAI token is used as energy to drill the asteroid.
+      A maximum constant flow is used to allow multiple miners on same asteroid, once the token resource is depleted, mining stops automaticaly.
     </p>
-    <h3>Create your own Super Token</h3>
-    <p>
-      Create your own Super Token or wrap a Pre-existing token to create a mineable asteroid.
+    <h3>1st : Create your own Super Token</h3>
+    <p class="descriptions">
+      Create your own Super Token to serve as a resource inside asteroids.
     </p>
-    <h3>Create your Asteroid</h3>
-    <p>
-      Create your own Super Token or wrap a Pre-existing token to create a mineable asteroid.
+    <button @click="toggleToken">Let's do This!</button>
+    <h3>2nd : Create your Asteroid</h3>
+    <p class="descriptions">
+      Asteroids allow your token to be mined by other users. You can use this to fund some project, or define a line to receive some prize.
+    </p>
+    <button :disabled="step == 0" @click="toggleAsteroid">Create Asteroid</button>
+    <h3>About</h3>
+    <p class="descriptions">
+      This project is developed for <a href="https://github.com/filipesoccol">Filipe Soccol</a> for <a href="https://online.ethglobal.com">ETHGlobal 2021</a>. The full source code is available at <a href="https://github.com/doiim/fluid-miners">Github repo</a>.
     </p>
     <h3>Powered by</h3>
     <ul>
@@ -24,11 +32,22 @@
 <script>
 export default {
   name: 'Home',
+  props: {
+    toggleToken: Function,
+    toggleAsteroid: Function,
+    step: Number
+  }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
 h1 {
   font-size: 3rem;
 }
@@ -43,8 +62,8 @@ li {
   display: inline-block;
   margin: 0 10px;
 }
-a {
-  color: #42b983;
+.descriptions {
+  max-width: 640px;
 }
 .powered {
   height: 32px;

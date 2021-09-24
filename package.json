@@ -9,10 +9,13 @@
     "deploy": "push-dir --dir=dist --branch=gh-pages --cleanup"
   },
   "dependencies": {
+    "@ethersproject/contracts": "^5.4.1",
     "core-js": "^3.6.5",
+    "ethers": "^4.0.49",
     "vue": "^3.0.0"
   },
   "devDependencies": {
+    "@superfluid-finance/js-sdk": "^0.5.3",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
@@ -31,9 +34,6 @@
       "plugin:vue/vue3-essential",
       "eslint:recommended"
     ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    },
     "rules": {}
   },
   "browserslist": [
