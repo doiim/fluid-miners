@@ -1,17 +1,14 @@
 <template>
   <AccountWidget :account="account" />
-  <div v-if="showTokenModal"><TokenWidget :toggleVisibility="toggleToken" :save="saveTokenData" /></div>
-  <div v-if="showAsteroidModal"><AsteroidWidget :toggleVisibility="toggleAsteroid" :tokenInfo="token" :save="saveAsteroidData"/></div>
-  <Home :toggleToken="toggleToken" :toggleAsteroid="toggleAsteroid" :step="token == undefined ? 0 : 1"/>
+  <router-view v-slot="{ Component }">
+      <component :is="Component" />
+  </router-view>
 </template>
 
 <script>
   import {ethers} from 'ethers'
 
-  import Home from './components/Home.vue'
   import AccountWidget from './components/AccountWidget.vue'
-  import TokenWidget from './components/TokenWidget.vue'
-  import AsteroidWidget from './components/AsteroidWidget.vue'
 
   export default {
     name: 'App',
@@ -20,38 +17,17 @@
         account: undefined,
         signer: undefined,
         provider: undefined,
-        showTokenModal: false,
-        showAsteroidModal: false,
-        token: undefined,
-        asteroid: {}
       }
     },
     components: {
-      Home,
       AccountWidget,
-      AsteroidWidget,
-      TokenWidget
     },
     async mounted() {
       await window.ethereum.enable()
       this.provider = new ethers.providers.Web3Provider(window.ethereum);
       this.signer = this.provider.getSigner();
       this.account = await this.signer.getAddress();
-    },
-    methods: {
-      toggleToken() {
-        this.showTokenModal =! this.showTokenModal
-      },
-      saveTokenData(token) {
-        this.token = token
-      },
-      toggleAsteroid() {
-        this.showAsteroidModal =! this.showAsteroidModal
-      },
-      saveAsteroidData(asteroid) {
-        this.asteroid = asteroid
-      },
-    },
+    }
   }
 </script>
 
@@ -78,6 +54,21 @@
     transform: scale(0);
   }
 
+  .scale-slide-enter-active,
+  .scale-slide-leave-active {
+    transition: all 0.5s ease;
+  }
+  .scale-slide-enter-from {
+    transform: translate(-100vw);
+  }
+  .scale-slide-enter-to,
+  .scale-slide-leave-from {
+    transform: translate(0px);
+  }
+  .scale-slide-leave-to {
+    transform: translate(100vw);
+  }
+
   html {
     background: #2F181D;
   }
@@ -88,6 +79,9 @@
     -webkit-animation-duration: 20s;
     -webkit-animation-timing-function: linear;
     -webkit-animation-iteration-count: infinite;
+    min-height: 100vh;
+    padding: 0px;
+    margin: 0px;
   }
 
   #app {

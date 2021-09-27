@@ -1,3 +1,4 @@
+
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.7.0;
 
@@ -31,6 +32,7 @@ contract AsteroidStream is SuperAppBase {
     IConstantFlowAgreementV1 private cfa;
     ISuperToken private superToken1;
     ISuperToken private superToken2;
+    address private creator;
     int96 public maxFlow;
     string public name;
 
@@ -40,6 +42,7 @@ contract AsteroidStream is SuperAppBase {
         ISuperfluid _host,
         ISuperToken _superToken1,
         ISuperToken _superToken2,
+        address _creator,
         int96 _maxFlow,
         string memory _name
     ) {
@@ -51,6 +54,7 @@ contract AsteroidStream is SuperAppBase {
         cfa = IConstantFlowAgreementV1(address(host.getAgreementClass(_AGREEMENT_TYPE_CFAv1)));
         superToken1 = _superToken1;
         superToken2 = _superToken2;
+        creator = _creator;
         name = _name;
         maxFlow = _maxFlow;
         
@@ -164,7 +168,10 @@ contract AsteroidStream is SuperAppBase {
           _ctx
       );
     }
-
+    
+    function withdrawDAI() onlyCreator public {
+        ISuperToken(superToken1).transfer(msg.sender, ISuperToken(superToken1).balanceOf(address(this)));
+    }
 
     // utilities
     function _isAccepted(ISuperToken _superToken) private view returns (bool) {
@@ -177,6 +184,11 @@ contract AsteroidStream is SuperAppBase {
 
     modifier onlyHost() {
         require(msg.sender == address(host), "RedirectAll: support only one host");
+        _;
+    }
+    
+    modifier onlyCreator() {
+        require(msg.sender == creator, "Creator: Only creator could call.");
         _;
     }
 

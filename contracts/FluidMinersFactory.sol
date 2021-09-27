@@ -47,7 +47,7 @@ contract FluidMinersFactory {
         // Deploy the Custom Super Token proxy
         INativeSuperToken newToken = INativeSuperToken(address(new NativeSuperTokenProxy()));
         // Deploy the machine using the new token address
-        AsteroidStream stream = new AsteroidStream(_host, _daiToken, ISuperToken(address(newToken)), _maxFlow, _nameast);
+        AsteroidStream stream = new AsteroidStream(_host, _daiToken, ISuperToken(address(newToken)), msg.sender, _maxFlow, _nameast);
         // Set the proxy to use the Super Token logic managed by Superfluid Protocol Governance
         _superTokenFactory.initializeCustomSuperToken(address(newToken));
         // Set up the token and mint tokens

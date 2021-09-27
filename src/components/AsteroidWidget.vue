@@ -8,9 +8,7 @@
             <p>What will be the max flow per second:</p>
             <input v-model="maxFlow" placeholder="Max Flow / Sec"/>
             <p v-if="maxFlow">With the flow selected a single miner depletes the {{tokenInfo.supply}} {{tokenInfo.symbol}} in:</p>
-            <h3 v-if="maxFlow">{{minutes}} hours</h3>
-            <h3 v-if="maxFlow">or {{hours}} days</h3>
-            <h3 v-if="maxFlow">or {{days}} months</h3>
+            <h3 v-if="maxFlow">{{minutes}} minutes or {{hours}} hours or {{days}} days.</h3>
             <button v-if="maxFlow" @click="createToken">Create Asteroid</button>
         </div>
     </transition>

@@ -28,22 +28,23 @@ npm run deploy
 
 | **Goerli** | Address |
 | ----------- | ----------- |
-| AsteroidFactory | [0xC0AD2133B5feC9d3a3B6655e659955d45f749c22](https://goerli.etherscan.io/address/0xC0AD2133B5feC9d3a3B6655e659955d45f749c22) |
+| AsteroidFactory | [0xC83Ce24c9A7767043153ed2144E633c07a831DE5](https://goerli.etherscan.io/address/0xC83Ce24c9A7767043153ed2144E633c07a831DE5) |
+| Asteroid Example | [0xb5b3ee43f238c2db22fe2cf1f6f5732143f10c84](https://goerli.etherscan.io/address/0xb5b3ee43f238c2db22fe2cf1f6f5732143f10c84) |
+| SuperToken Example | [0x04ec8433d16197ca2ace5e58ca5f3e37cdb50366](https://goerli.etherscan.io/address/0x04ec8433d16197ca2ace5e58ca5f3e37cdb50366) |
 
 
 #### Open Contracts on Remix
 
-To load contract used on the project paste this link on Remix: https://gist.github.com/filipesoccol/4e0ead3d417c87fd1c9b1cfe0c955523
-
-#### Deploying a new Asteroid + Supertoken
-
-Just call function 
+Click on the link that appears on this Gist: https://gist.github.com/filipesoccol/b5da569d96da76b7661d8c2dc4bb5b40
 
 ## Sponsors
 
 [ETHGlobal](https://ethglobal.com)
+
 [SuperFluid](https://superfluid.finance)
+
 [MakerDAO](https://makerdao.com)
+
 [Doiim](https://doiim.com)
 
 
