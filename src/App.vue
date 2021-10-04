@@ -1,15 +1,14 @@
 <template>
-  <AccountWidget :account="account" />
-  <router-view v-slot="{ Component }">
-      <component :is="Component" />
-  </router-view>
+  <router-view/>
+  <h3>Powered by</h3>
+  <ul>
+    <li><a href="https://makerdao.io"><img class="powered" src="./assets/dai.png" alt="Dai"/></a></li>
+    <li><a href="https://superfluid.finance"><img class="powered" src="./assets/superfluid.png" alt="Superfluid"/></a></li>
+    <li><a href="https://doiim.com"><img class="powered" src="./assets/doiim.png" alt="Doiim"/></a></li>
+  </ul>
 </template>
 
 <script>
-  import {ethers} from 'ethers'
-
-  import AccountWidget from './components/AccountWidget.vue'
-
   export default {
     name: 'App',
     data: function () {
@@ -18,21 +17,13 @@
         signer: undefined,
         provider: undefined,
       }
-    },
-    components: {
-      AccountWidget,
-    },
-    async mounted() {
-      await window.ethereum.enable()
-      this.provider = new ethers.providers.Web3Provider(window.ethereum);
-      this.signer = this.provider.getSigner();
-      this.account = await this.signer.getAddress();
     }
   }
 </script>
 
 <style>
 
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
   @import url('https://fonts.googleapis.com/css2?family=Sarpanch:wght@400;700;900&display=swap');
 
   @-webkit-keyframes move-background {
@@ -74,6 +65,7 @@
   }
 
   body {
+    overflow-x: clip;
     background: url('./assets/background.png');
     -webkit-animation-name: move-background;
     -webkit-animation-duration: 20s;
@@ -147,5 +139,29 @@
   }
   a {
     color: #ED6849;
+  }
+  h1 {
+    font-size: 3rem;
+  }
+  h3 {
+    margin: 40px 0 0;
+  }
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  li {
+    display: inline-block;
+    margin: 0 10px;
+  }
+  .descriptions {
+    max-width: 640px;
+    padding: 0px 16px;
+  }
+  .powered {
+    height: 32px;
+  }
+  .small {
+    font-size: 0.8rem;
   }
 </style>

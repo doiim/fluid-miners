@@ -16,8 +16,9 @@ export default {
 
 <style scoped>
 .account {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
+    font-family: 'Share Tech Mono', monospace;
     position: absolute;
+    font-size: 0.8rem;
     top: 20px;
     right: 20px;
 }

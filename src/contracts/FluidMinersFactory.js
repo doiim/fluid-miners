@@ -1,6 +1,6 @@
 const Contract = {
     addresses: {
-		goerli: '0xC0AD2133B5feC9d3a3B6655e659955d45f749c22'
+		goerli: '0x6478398BC205192866bDAF93D71966322cb78292'
 	},
 	abi: [
 	{

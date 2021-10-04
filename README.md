@@ -28,8 +28,8 @@ npm run deploy
 
 | **Goerli** | Address |
 | ----------- | ----------- |
-| AsteroidFactory | [0xC83Ce24c9A7767043153ed2144E633c07a831DE5](https://goerli.etherscan.io/address/0xC83Ce24c9A7767043153ed2144E633c07a831DE5) |
-| Asteroid Example | [0xb5b3ee43f238c2db22fe2cf1f6f5732143f10c84](https://goerli.etherscan.io/address/0xb5b3ee43f238c2db22fe2cf1f6f5732143f10c84) |
+| AsteroidFactory | [0x6478398BC205192866bDAF93D71966322cb78292](https://goerli.etherscan.io/address/0x6478398BC205192866bDAF93D71966322cb78292) |
+| Asteroid Example | [0x19b93b4b57afafe001c419e0bfc6ea3eecab775d](https://goerli.etherscan.io/address/0x19b93b4b57afafe001c419e0bfc6ea3eecab775d) |
 | SuperToken Example | [0x04ec8433d16197ca2ace5e58ca5f3e37cdb50366](https://goerli.etherscan.io/address/0x04ec8433d16197ca2ace5e58ca5f3e37cdb50366) |
 
 

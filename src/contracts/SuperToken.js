@@ -1,4 +1,14 @@
 const Contract = {
+    addresses: {
+        goerli: {
+            daix: "0xF2d68898557cCb2Cf4C10c3Ef2B034b2a69DAD00",
+            dai: "0x88271d333C72e51516B67f5567c728E702b3eeE8"
+        },
+        matic: {
+            daix: "0x1305F6B6Df9Dc47159D12Eb7aC2804d4A33173c2",
+            dai: "0x8f3cf7ad23cd3cadbd9735aff958023239c6a063"
+        }
+    },
 	abi: [
         {
             "anonymous": false,

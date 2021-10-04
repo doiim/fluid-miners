@@ -4,12 +4,15 @@
         <img class="asteroid-fixed-center" alt="test" src="../assets/asteroid-shadow.png"/>
         <div class="asteroid-fixed-center asteroid-light"></div>
         <div class="asteroid-fixed-center asteroid-shadow"></div>
+        <div class="asteroid-percentage">{{percentage}}%</div>
+        <slot></slot>
     </div>
 </template>
 
 <script>
 export default {
-  name: 'AsteroidAnimation'
+  name: 'AsteroidAnimation',
+  props: ['percentage']
 }
 </script>
 
@@ -28,6 +31,21 @@ export default {
   position: relative; 
   transform: scale(0.5);
   left: -125px;
+  margin-top: 32px;
+  margin-bottom: 300px;
+}
+.asteroid-percentage {
+  font-family: 'Share Tech Mono', monospace;
+  position: absolute;
+  margin: auto; 
+  width: 520px;
+  top: 100px;
+  font-size: 150px;
+  -webkit-text-fill-color: #EBEBEB;
+  -webkit-text-stroke: 4px #2F181D;
+   color: #EBEBEB;
+   text-shadow:
+     10px 10px 0 #2F181D; 
 }
 .asteroid-fixed-center {
   position: absolute;

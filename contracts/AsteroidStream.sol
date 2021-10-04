@@ -31,8 +31,8 @@ contract AsteroidStream is SuperAppBase {
     ISuperfluid private host;
     IConstantFlowAgreementV1 private cfa;
     ISuperToken private superToken1;
-    ISuperToken private superToken2;
-    address private creator;
+    ISuperToken public superToken2;
+    address public creator;
     int96 public maxFlow;
     string public name;
 
@@ -119,6 +119,9 @@ contract AsteroidStream is SuperAppBase {
       (address user, ) = abi.decode(agreementData, (address, address));
       (,int96 flowRate,,) = cfa.getFlowByID(inputToken, agreementId);
 
+      int96 targetFlow = 0;
+      if (flowRate > maxFlow) targetFlow = maxFlow;
+      if (flowRate <= maxFlow) targetFlow = flowRate;
       // create flow
       (newCtx, ) = host.callAgreementWithContext(
           cfa,
@@ -126,7 +129,7 @@ contract AsteroidStream is SuperAppBase {
               cfa.createFlow.selector,
               superToken2,
               user,
-              flowRate,
+              targetFlow,
               new bytes(0) // placeholder
           ),
           new bytes(0), // user data

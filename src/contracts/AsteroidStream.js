@@ -312,6 +312,19 @@ const Contract = {
         },
         {
             "inputs": [],
+            "name": "creator",
+            "outputs": [
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
             "name": "maxFlow",
             "outputs": [
                 {
@@ -331,6 +344,19 @@ const Contract = {
                     "internalType": "string",
                     "name": "",
                     "type": "string"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "superToken2",
+            "outputs": [
+                {
+                    "internalType": "contract ISuperToken",
+                    "name": "",
+                    "type": "address"
                 }
             ],
             "stateMutability": "view",
