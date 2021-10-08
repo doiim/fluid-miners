@@ -13,19 +13,20 @@ let provider;
 let signer;
 let account;
 let user;
+let sf;
 
 const routes = [
   {
     path: "/",
     name: "Home",
     component: Home,
-    props: () => { return {provider, signer, account, user} }
+    props: () => { return {provider, signer, account, user, sf} }
   },
   {
     path: "/:asteroid",
     name: "Asteroid",
     component: Asteroid,
-    props: () => { return {provider, signer, account, user} }
+    props: () => { return {provider, signer, account, user, sf} }
   },
 ];
 
@@ -41,15 +42,12 @@ router.beforeEach( async () => {
     provider = new ethers.providers.Web3Provider(window.ethereum);
     signer = await provider.getSigner();
     account = await signer.getAddress();
-    const sf = new SuperFluid.Framework({ ethers: providerSF });
+    sf = new SuperFluid.Framework({ ethers: providerSF });
     await sf.initialize()
-    window.sf = sf;
     user = await sf.user({
       address: account,
-      token: SuperToken.addresses.goerli.daix
+      token: SuperToken.addresses[sf.networkType].daix
     });
-    window.sfUser = user
-    console.log(user)
   } catch (err) {
     console.log('Wallet not connected', err)
   }

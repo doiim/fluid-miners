@@ -1,5 +1,5 @@
 <template>
-  <div class="circle" :style="{top: origintop+'px', left: originleft+'px', transform: transform}"></div>
+  <div class="circle" :style="{top: this.origintop+'px', left: this.originleft+'px', transform: transform}"></div>
 </template>
 
 <script>

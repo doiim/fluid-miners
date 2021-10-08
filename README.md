@@ -26,11 +26,28 @@ npm run deploy
 
 ## Network
 
+
+
+| **Ropsten** | Address |
+| ----------- | ----------- |
+| AsteroidFactory | [0xE84ceC51952b5a6C882B898d541ecFe13c611d34](https://ropsten.etherscan.io/address/0xE84ceC51952b5a6C882B898d541ecFe13c611d34) |
+| Asteroid Example | [0x19b93b4b57afafe001c419e0bfc6ea3eecab775d](https://ropsten.etherscan.io/address/0x19b93b4b57afafe001c419e0bfc6ea3eecab775d) |
+| SuperToken Example | [0x04ec8433d16197ca2ace5e58ca5f3e37cdb50366](https://ropsten.etherscan.io/address/0x04ec8433d16197ca2ace5e58ca5f3e37cdb50366) |
+
+
 | **Goerli** | Address |
 | ----------- | ----------- |
 | AsteroidFactory | [0x6478398BC205192866bDAF93D71966322cb78292](https://goerli.etherscan.io/address/0x6478398BC205192866bDAF93D71966322cb78292) |
 | Asteroid Example | [0x19b93b4b57afafe001c419e0bfc6ea3eecab775d](https://goerli.etherscan.io/address/0x19b93b4b57afafe001c419e0bfc6ea3eecab775d) |
 | SuperToken Example | [0x04ec8433d16197ca2ace5e58ca5f3e37cdb50366](https://goerli.etherscan.io/address/0x04ec8433d16197ca2ace5e58ca5f3e37cdb50366) |
+
+| **Mumbai (Polygon)** | Address |
+| ----------- | ----------- |
+| AsteroidFactory | [0xA0100c8FFD21e129A9469F8585b1cCa767650DAB](https://mumbai.polygonscan.com/address/0xA0100c8FFD21e129A9469F8585b1cCa767650DAB) |
+| Asteroid Example | [0x2202E74be5C12f58D9c27bE3463869FBd1b8A477](https://mumbai.polygonscan.com/address/0x2202E74be5C12f58D9c27bE3463869FBd1b8A477) |
+| SuperToken Example | [0x04ec8433d16197ca2ace5e58ca5f3e37cdb50366](https://goerli.etherscan.io/address/0x63267D520Cc36C32ed39d78e0993AE457eab4c3E) |
+*Obs.: Mumbai testnet is giving errors on Superfluid-SDK trying to fetch logs too far.
+
 
 
 #### Open Contracts on Remix

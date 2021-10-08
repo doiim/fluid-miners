@@ -5,21 +5,22 @@
       <h2>{{asteroidName}}</h2>
       <div class="asteroid-details small">
         <div class="details-item">Total Supply:</div>
-        <div class="details-item"><CounterWidget :reference="daicounter" :decimals="6" :to="displayTotalSupply"/> {{symbolToken}}</div>
+        <div class="details-item"><CounterWidget :decimals="6" :to="displayTotalSupply"/> {{symbolToken}}</div>
         <div class="details-item">Maximum Flow:</div>
-        <div class="details-item">{{maxFlowInHours}} DAIx/hour</div>
+        <div class="details-item">{{maxFlowInHours}} <DaiIcon/>/hour</div>
       </div>
       <AsteroidAnimation :percentage="displayCurrentSupply">
         <ShipAnimation ref="ship" :mining="isMining" :ready="isReady" />
+        <OtherShipAnimation v-for="(c, idx) in otherMiners" :key="idx"  :rot="idx*-70+30" />
       </AsteroidAnimation>
       <div class="asteroid-details">
-        <div class="details-item">Mined Tokens:</div>
-        <div class="details-item" ref="tokens"><CounterWidget :reference="daicounter" :decimals="6" :to="displayBalanceToken"/> {{symbolToken}}</div>
+        <div></div>
+        <div class="details-item big" ref="tokens"><CounterWidget :decimals="6" :to="displayBalanceToken"/> {{symbolToken}}</div>
       </div>
       <div class="asteroid-details">
         <div></div>
         <div class="details-item">
-          <CounterWidget :reference="daicounter" :decimals="6" :to="displayBalanceDAIx"/> DAIx
+          <DaiIcon/> <CounterWidget :decimals="6" :to="displayBalanceDAIx"/>
         </div>
       </div>
       <ShipParticle 
@@ -52,8 +53,10 @@ import {ethers} from 'ethers'
 import AsteroidStream from '../contracts/AsteroidStream.js'
 import SuperToken from '../contracts/SuperToken.js'
 
+import DaiIcon from '../components/DaiIcon.vue'
 import AsteroidAnimation from '../components/AsteroidAnimation.vue'
 import ShipAnimation from '../components/ShipAnimation.vue'
+import OtherShipAnimation from '../components/OtherShipAnimation.vue'
 import ShipParticle from '../components/ShipParticle.vue'
 import AccountWidget from '../components/AccountWidget.vue'
 import CounterWidget from '../components/CounterWidget.vue'
@@ -75,6 +78,7 @@ export default {
       currentSupply: BigNumber.from(0),
       maxFlow: BigNumber.from(0),
       balanceDAIx: BigNumber.from(0),
+      balanceDAIDeposited: BigNumber.from(0),
       balanceToken: BigNumber.from(0),
       symbolToken: undefined,
       cAsteroid: undefined,
@@ -82,20 +86,23 @@ export default {
       cDAIx: undefined,
       updateInterval: undefined,
       particleInterval: undefined,
+      otherMiners: []
     }
   },
   components: {
     AsteroidAnimation,
     ShipAnimation,
+    OtherShipAnimation,
     ShipParticle,
     AccountWidget,
-    CounterWidget
+    CounterWidget,
+    DaiIcon
   },
-  props: ['account', 'signer', 'provider', 'user'],
+  props: ['account', 'signer', 'provider', 'user', 'sf'],
   mounted() {
     setTimeout( async () => {
       this.cAsteroid = new ethers.Contract(this.$route.params.asteroid, AsteroidStream.abi, this.signer)
-      this.cDAIx = new ethers.Contract(SuperToken.addresses.goerli.daix, SuperToken.abi, this.signer)
+      this.cDAIx = new ethers.Contract(SuperToken.addresses[this.sf.networkType].daix, SuperToken.abi, this.signer)
       this.asteroidName = await this.cAsteroid.name()
       this.maxFlow = await this.cAsteroid.maxFlow()
       console.log(this.maxFlow.toString())
@@ -109,19 +116,30 @@ export default {
       this.balanceDAIx = await this.cDAIx.balanceOf(this.account)
       const details = await this.user.details();
       this.checkFlows()
+      this.balanceDAIDeposited = details.cfa.flows.outFlows.reduce( (acc, flow) => {
+         return acc.add(BigNumber.from(flow.flowRate.toString()).mul(60).mul(60))
+      }, BigNumber.from(0))
       console.log(details)
+      const asteroidUser = await this.sf.user({
+        address: this.$route.params.asteroid,
+        token: SuperToken.addresses[this.sf.networkType].daix
+      });
+      this.isLoading = false
+      const astrodetails = await asteroidUser.details();
+      console.log(asteroidUser, astrodetails )
+      this.otherMiners = astrodetails.cfa.flows.inFlows.reduce( (acc, flow) => {
+        if (flow.sender == this.account) return acc
+        return acc.concat([1])
+      }, [])
       if (this.asteroidCreator == this.account) this.isCreator = true
-      if (parseFloat(details.cfa.netFlow) != 0){
-        if (!this.updateInterval) this.updateInterval = setInterval(this.updateBalances, 3000)
-      }
+      if (!this.updateInterval) this.updateInterval = setInterval(this.updateBalances, 3000)
       if (this.balanceDAIx.gt(0)) this.isReady = true
       else this.isReady = false
-      this.isLoading = false
     },500)
   },
   computed: {
     maxFlowInHours() {
-      return ethers.utils.formatEther(this.maxFlow.mul(60).mul(60))
+      return parseFloat(ethers.utils.formatEther(this.maxFlow.mul(60).mul(60))).toFixed(6)
     },
     displayTotalSupply() {
       return parseFloat(ethers.utils.formatEther(this.totalSupply))
@@ -129,18 +147,18 @@ export default {
     displayCurrentSupply() {
       return parseInt(this.currentSupply.mul(100).div(this.totalSupply).toString())
     },
-    displayBalanceToken() { 
+    displayBalanceToken() {
       return parseFloat(ethers.utils.formatEther(this.balanceToken))
     },
     displayBalanceDAIx() { 
-      return parseFloat(ethers.utils.formatEther(this.balanceDAIx))
+      return parseFloat(ethers.utils.formatEther(this.balanceDAIx.add(this.balanceDAIDeposited)))
     }
   },
   methods: {
     async startMining() {
       await this.user.flow({
         recipient: this.cAsteroid.address,
-        flowRate: this.maxFlow.toString()
+        flowRate: this.maxFlow.mul(10).toString()
       });
       if (!this.updateInterval) this.updateInterval = setInterval(this.updateBalances, 3000)
     },
@@ -156,6 +174,9 @@ export default {
     async checkFlows() {
       const details = await this.user.details();
       const flows = details.cfa.flows.outFlows.filter( (f) => { return f.receiver.toLowerCase() == this.$route.params.asteroid.toLowerCase() })
+      this.balanceDAIDeposited = details.cfa.flows.outFlows.reduce( (acc, flow) => {
+         return acc.add(BigNumber.from(flow.flowRate.toString()).mul(60).mul(60))
+      }, BigNumber.from(0))
       if (flows.length > 0) {
         this.isMining = true
         this.startParticleInterval()
@@ -165,10 +186,10 @@ export default {
       }
     },
     async updateBalances() {
+      this.checkFlows()
       this.balanceToken = await this.cToken.balanceOf(this.account)
       this.currentSupply = await this.cToken.balanceOf(this.$route.params.asteroid)
       this.balanceDAIx = await this.cDAIx.balanceOf(this.account)
-      this.checkFlows()
       if (this.balanceDAIx.gt(0)) this.isReady = true
       else this.isReady = false
     },
@@ -213,6 +234,9 @@ export default {
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: center;
+}
+.big {
+  font-size: 1.4rem;
 }
 button {
   margin: 16px;

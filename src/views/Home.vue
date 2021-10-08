@@ -42,7 +42,7 @@ export default {
       showAsteroidModal: false
     }
   },
-  props: ['account', 'signer', 'provider', 'user'],
+  props: ['account', 'signer', 'provider', 'user', 'sf'],
   components: {
     AccountWidget,
     AsteroidWidget
@@ -58,7 +58,7 @@ export default {
       this.showAsteroidModal =! this.showAsteroidModal
     },
     async deployAsteroid(name, symbol, supply, asteroid, maxFlow) {
-      const factory = new ethers.Contract(FluidMinersFactory.addresses.goerli, FluidMinersFactory.abi, this.signer)
+      const factory = new ethers.Contract(FluidMinersFactory.addresses[this.sf.networkType], FluidMinersFactory.abi, this.signer)
       const tx = await factory.deployAsteroid(supply, maxFlow, asteroid, name, symbol)
       const receipt = await tx.wait();
       this.$router.push(`/${receipt.events[6].args[0]}`)
